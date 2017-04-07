@@ -91,8 +91,8 @@ public class ContentViewController: UIViewController, UIScrollViewDelegate {
             } else {
                 downloadingView = UIView(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
                 downloadingView!.center = CGPoint(x: scrollView.center.x, y: scrollView.center.y)
-                downloadingView!.backgroundColor = UIColor.gray
-                scrollView.addSubview(downloadingView!)
+                downloadingView!.backgroundColor = UIColor.black
+                mainView.addSubview(downloadingView!)
                 let progress = KDCircularProgress(frame: downloadingView!.bounds)
                 progress.startAngle = -90
                 progress.progressThickness = 0.2
@@ -119,6 +119,8 @@ public class ContentViewController: UIViewController, UIScrollViewDelegate {
             NotificationCenter.default.addObserver(self, selector: #selector(self.downloadError), name: errorName, object: nil)
             delegate?.needDownloadSource(index: index, item: si, downloadProgressNotificationName: progressName, downloadEndNotificationName: endName, downloadErrorNotificationName: errorName)
         } else if player != nil {
+            self.downloadingView?.removeFromSuperview()
+            self.downloadingView = nil
             player?.play()
         }
     }
@@ -172,7 +174,6 @@ public class ContentViewController: UIViewController, UIScrollViewDelegate {
     }
     
     public func scrollViewDidZoom(_ scrollView: UIScrollView) {
-//        mainView.center = scrollView.center
         var centerX = scrollView.center.x
         var centerY = scrollView.center.y
         centerX = scrollView.contentSize.width > scrollView.frame.size.width ? scrollView.contentSize.width * 0.5 : centerX
